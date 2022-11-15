@@ -9,9 +9,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
       - run: |
-          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
-          cat ./package.json >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-      - run: |
-          echo '${{ fromJson(env.PACKAGE_JSON).version }}'
+          echo '${{ steps.package-version.current-version}}'
