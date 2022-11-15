@@ -22,4 +22,4 @@ jobs:
       - name: Use the value
         id: step_two
         run: |
-            echo "${{ fromJson(${{env.packageJson}}).version }}
+            echo "${{ fromJson(env.packageJson).version }}"
