@@ -9,17 +9,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      - name: Get Version from package.json file
-        id: set_version
-        run: |
-          content=`cat ./package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "packageJson=$content" >> $GITHUB_ENV
-      - name: Use the value
-        id: step_two
-        run: |
-            echo "${{ fromJson(steps.set_version.env.packageJson).version }}"
+      - run: |
+          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
+          cat ./package.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - run: |
+          echo '${{ fromJson(env.PACKAGE_JSON).version }}'
